@@ -8,10 +8,11 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
+    debug_mode = 'debug' in request.args
     if session.get('usuario'):
-        productos = get_personalized_recommendations(session['usuario'])
+        productos = get_personalized_recommendations(session['usuario'], debug=debug_mode)
     else:
-        productos = get_recommendations()
+        productos = get_recommendations(debug=debug_mode)
     return render_template('index.html', productos=productos)
 
 @main.route('/agregar-carrito/<int:producto_id>')
