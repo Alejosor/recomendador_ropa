@@ -20,6 +20,12 @@ def lista_productos():
     productos = Product.query.all()
     return render_template('admin/lista_productos.html', productos=productos)
 
+@admin_bp.route('/admin/usuarios')
+def lista_usuarios():
+    from app.models.user import User  
+    usuarios = User.query.all()
+    return render_template('admin/lista_usuarios.html', usuarios=usuarios)
+
 @admin_bp.route('/admin/login', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':

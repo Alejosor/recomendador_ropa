@@ -87,6 +87,11 @@
             color: #c62828;
         }
 
+        .admin-card:nth-child(4) .icon-wrapper {
+            background-color: #ffebee;
+            color: #ee8906;
+        }
+
         .admin-card i {
             font-size: 32px;
         }
@@ -148,6 +153,16 @@
                     </div>
                     <h3>Cerrar Sesión</h3>
                     <p>Salir del panel de administración</p>
+                </a>
+            </li>
+
+            <li class="admin-card">
+                <a href="{{ url_for('admin.lista_usuarios') }}">
+                    <div class="icon-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h3>Ver Usuarios</h3>
+                    <p>Administrar los usuarios existente</p>
                 </a>
             </li>
         </ul>
