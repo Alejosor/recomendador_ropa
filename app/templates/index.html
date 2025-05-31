@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recomendador de Ropa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Productos Recomendados</h1>
+        <ul class="product-list">
+            {% for producto in productos %}
+                <li class="product-item">
+                    <strong class="product-name">{{ producto.nombre }}</strong>
+                    <span class="product-category">{{ producto.categoria }}</span>
+                    <span class="product-price">S/ {{ producto.precio }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
