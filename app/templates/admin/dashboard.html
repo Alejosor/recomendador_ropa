@@ -1,6 +1,156 @@
-<h2>Panel de Administración</h2>
-<ul>
-    <li><a href="{{ url_for('admin.subir_producto') }}">Subir nuevo producto</a></li>
-    <li><a href="{{ url_for('admin.lista_productos') }}">Ver productos</a></li>
-    <li><a href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
-</ul>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Futbolera</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .admin-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .admin-card a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #2c3e50;
+            height: 100%;
+        }
+
+        .icon-wrapper {
+            background-color: #f8f9fa;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .admin-card:nth-child(1) .icon-wrapper {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .admin-card:nth-child(2) .icon-wrapper {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .admin-card:nth-child(3) .icon-wrapper {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .admin-card i {
+            font-size: 32px;
+        }
+
+        .admin-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .admin-card p {
+            color: #7f8c8d;
+            margin: 0;
+        }
+
+        @media (max-width: 992px) {
+            .admin-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 580px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Panel de Administración</h2>
+        
+        <ul class="admin-grid">
+            <li class="admin-card">
+                <a href="{{ url_for('admin.subir_producto') }}">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3>Subir Producto</h3>
+                    <p>Agregar nuevos productos a la tienda</p>
+                </a>
+            </li>
+            
+            <li class="admin-card">
+                <a href="{{ url_for('admin.lista_productos') }}">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>Ver Productos</h3>
+                    <p>Administrar el inventario existente</p>
+                </a>
+            </li>
+            
+            <li class="admin-card">
+                <a href="{{ url_for('auth.logout') }}">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h3>Cerrar Sesión</h3>
+                    <p>Salir del panel de administración</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
