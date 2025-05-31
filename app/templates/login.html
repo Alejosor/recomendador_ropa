@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+</head>
+<body>
+    <h1>Iniciar sesión</h1>
+    <form method="POST">
+        <input type="email" name="email" placeholder="Correo" required><br>
+        <input type="password" name="password" placeholder="Contraseña" required><br>
+        <button type="submit">Entrar</button>
+    </form>
+    <p><a href="{{ url_for('auth.registro') }}">Crear cuenta</a></p>
+</body>
+</html>

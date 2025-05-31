@@ -7,7 +7,24 @@
 </head>
 <body>
     <div class="container">
+        <!-- Barra de usuario -->
+        <div class="user-bar">
+            {% if session.get('usuario') %}
+                <p>👋 Hola, {{ session['usuario'] }} |
+                    <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+                </p>
+            {% else %}
+                <p>
+                    <a href="{{ url_for('auth.login') }}">Iniciar sesión</a> |
+                    <a href="{{ url_for('auth.registro') }}">Registrarse</a>
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- Título -->
         <h1>Productos Recomendados</h1>
+
+        <!-- Lista de productos -->
         <ul class="product-list">
             {% for producto in productos %}
                 <li class="product-item">

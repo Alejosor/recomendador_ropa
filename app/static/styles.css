@@ -57,3 +57,19 @@ h1 {
     font-weight: bold;
     color: #e67e22;
 }
+
+.user-bar {
+    text-align: right;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.user-bar a {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.user-bar a:hover {
+    text-decoration: underline;
+}
