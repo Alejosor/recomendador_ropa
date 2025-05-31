@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Compra Exitosa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>✅ ¡Compra Exitosa!</h1>
+        <p>Gracias por tu compra, {{ session['usuario'] }}. Tu pedido fue registrado correctamente.</p>
+        <p><a href="{{ url_for('main.index') }}">← Volver a la tienda</a></p>
+        <p><a href="{{ url_for('main.mis_compras') }}">🧾 Ver mis compras</a></p>
+    </div>
+</body>
+</html>

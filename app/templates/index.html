@@ -11,6 +11,7 @@
         <div class="user-bar">
             {% if session.get('usuario') %}
                 <p>👋 Hola, {{ session['usuario'] }} |
+                    <a href="{{ url_for('main.mis_compras') }}">Mis compras</a> |
                     <a href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
                 </p>
             {% else %}
