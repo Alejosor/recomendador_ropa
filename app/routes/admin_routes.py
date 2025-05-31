@@ -75,3 +75,21 @@ def editar_usuario(id):
         return redirect(url_for('admin.lista_usuarios'))
 
     return render_template('admin/editar_usuario.html', usuario=usuario)
+
+@admin_bp.route('/admin/editar_producto/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def editar_producto(id):
+    from app.models.product import Product
+    producto = Product.query.get_or_404(id)
+
+    if request.method == 'POST':
+        producto.nombre = request.form['nombre']
+        producto.precio = request.form['precio']
+        producto.categoria = request.form['categoria']
+    
+        from app import db
+        db.session.commit()
+        flash('Producto actualizado correctamente.')
+        return redirect(url_for('admin.lista_productos'))
+
+    return render_template('admin/editar_producto.html', producto=producto)
