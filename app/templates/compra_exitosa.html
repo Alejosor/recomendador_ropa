@@ -2,15 +2,111 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Compra Exitosa</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Exitosa | Futbolera</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+            line-height: 1.6;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #27ae60;
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 25px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
 </head>
 <body>
     <div class="container">
-        <h1>✅ ¡Compra Exitosa!</h1>
-        <p>Gracias por tu compra, {{ session['usuario'] }}. Tu pedido fue registrado correctamente.</p>
-        <p><a href="{{ url_for('main.index') }}">← Volver a la tienda</a></p>
-        <p><a href="{{ url_for('main.mis_compras') }}">🧾 Ver mis compras</a></p>
+        <div class="success-icon">✅</div>
+        <h1>¡Compra Exitosa!</h1>
+        <p>Gracias por tu compra, <strong>{{ session['usuario'] }}</strong>.</p>
+        <p>Tu pedido fue registrado correctamente y pronto estará en camino.</p>
+        
+        <div class="links">
+            <a href="{{ url_for('main.mis_compras') }}" class="btn btn-primary">
+                <i class="fa-solid fa-bag-shopping" style="margin-right: 2px;"></i>
+                Ver mis compras
+            </a>
+            <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-store" style="margin-right: 2px;"></i>
+                Volver a la tienda
+            </a>
+        </div>
     </div>
 </body>
 </html>
