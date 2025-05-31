@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Carrito</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Mensajes flash -->
+        {% with mensajes = get_flashed_messages(with_categories=True) %}
+            {% if mensajes %}
+                <div class="flash-messages">
+                {% for categoria, mensaje in mensajes %}
+                    <p class="flash flash-{{ categoria }}">{{ mensaje }}</p>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <h1>Carrito de Compras</h1>
+
+        {% if carrito %}
+            <ul class="product-list">
+                {% for item in carrito %}
+                    <li class="product-item">
+                        <strong>{{ item.nombre }}</strong> -
+                        {{ item.categoria }} - S/ {{ item.precio }}
+                        <a href="{{ url_for('main.quitar_carrito', indice=loop.index0) }}">❌ Quitar</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <h3>Total: S/ {{ total }}</h3>
+            <button>Comprar (Próximamente)</button>
+        {% else %}
+            <p>Tu carrito está vacío.</p>
+        {% endif %}
+
+        <p><a href="{{ url_for('main.index') }}">← Volver a la tienda</a></p>
+    </div>
+</body>
+</html>

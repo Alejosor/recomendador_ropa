@@ -21,8 +21,22 @@
             {% endif %}
         </div>
 
+        <!-- Mensajes flash -->
+        {% with mensajes = get_flashed_messages(with_categories=True) %}
+            {% if mensajes %}
+                <div class="flash-messages">
+                {% for categoria, mensaje in mensajes %}
+                    <p class="flash flash-{{ categoria }}">{{ mensaje }}</p>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <!-- Título -->
         <h1>Productos Recomendados</h1>
+
+        <!-- Enlace para ver el carrito -->
+        <p><a href="{{ url_for('main.ver_carrito') }}">🛒 Ver carrito</a></p>
 
         <!-- Lista de productos -->
         <ul class="product-list">
@@ -30,7 +44,9 @@
                 <li class="product-item">
                     <strong class="product-name">{{ producto.nombre }}</strong>
                     <span class="product-category">{{ producto.categoria }}</span>
-                    <span class="product-price">S/ {{ producto.precio }}</span>
+                    <span class="product-price">S/ {{ producto.precio }}</span><br>
+                    
+                    <a href="{{ url_for('main.agregar_carrito', producto_id=producto.id) }}">Agregar al carrito</a>
                 </li>
             {% endfor %}
         </ul>
