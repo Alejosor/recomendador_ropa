@@ -2,8 +2,180 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Recomendador de Ropa</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futbolera | Tienda deportiva</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .user-bar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .user-bar p {
+            margin: 0;
+        }
+
+        .user-bar a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s;
+        }
+
+        .user-bar a:hover {
+            color: #2ecc71;
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 28px;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .flash-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .cart-link {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .cart-link a {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .cart-link a:hover {
+            background-color: #2980b9;
+        }
+
+        .product-list {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-name {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .product-category {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .product-item a {
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-align: center;
+            transition: background-color 0.3s;
+            margin-top: auto;
+        }
+
+        .product-item a:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 768px) {
+            .product-list {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-bar {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
 </head>
 <body>
     <div class="container">
@@ -37,7 +209,12 @@
         <h1>Productos Recomendados</h1>
 
         <!-- Enlace para ver el carrito -->
-        <p><a href="{{ url_for('main.ver_carrito') }}">🛒 Ver carrito</a></p>
+        <div class="cart-link">
+            <a href="{{ url_for('main.ver_carrito') }}">
+                <i class="fas fa-shopping-cart" style="margin-right: 2px;"></i>
+                Ver carrito
+            </a>
+        </div>
 
         <!-- Lista de productos -->
         <ul class="product-list">
@@ -45,8 +222,7 @@
                 <li class="product-item">
                     <strong class="product-name">{{ producto.nombre }}</strong>
                     <span class="product-category">{{ producto.categoria }}</span>
-                    <span class="product-price">S/ {{ producto.precio }}</span><br>
-                    
+                    <span class="product-price">S/ {{ producto.precio }}</span>
                     <a href="{{ url_for('main.agregar_carrito', producto_id=producto.id) }}">Agregar al carrito</a>
                 </li>
             {% endfor %}
