@@ -16,10 +16,11 @@ def create_app():
 
     db.init_app(app)
     ma.init_app(app)
-
+    from .routes.admin_routes import admin_bp
     from .routes.routes import main
     from .routes.auth_routes import auth_bp
     app.register_blueprint(main)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(admin_bp)
 
     return app

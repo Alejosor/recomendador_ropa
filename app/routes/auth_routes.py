@@ -21,7 +21,9 @@ def login():
         password = request.form['password']
         usuario = verificar_usuario(correo, password)
         if usuario:
+            session.clear()
             session['usuario'] = usuario.nombre
+            session['rol'] = 'usuario'
             flash('Inicio de sesión exitoso.')
             return redirect(url_for('main.index'))
         else:

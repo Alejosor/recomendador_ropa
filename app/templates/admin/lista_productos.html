@@ -1,0 +1,20 @@
+<h2>Lista de productos</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Categoría</th>
+        <th>Ventas</th>
+    </tr>
+    {% for producto in productos %}
+    <tr>
+        <td>{{ producto.id }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>{{ producto.categoria }}</td>
+        <td>{{ producto.cant_ventas }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('admin.dashboard') }}">Volver al panel</a>
