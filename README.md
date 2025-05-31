@@ -25,4 +25,5 @@ Este es un sistema de recomendación de ropa hecho con Python y Flask. Actualmen
 
 - Alejandro Soriano – @Alejosor
 - Diego Castro - @Diego17cp
+- Julian Burga -@JulianB0315
   
