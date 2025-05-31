@@ -2,12 +2,16 @@ from flask import Blueprint, render_template, session, redirect, url_for, flash,
 from app.controllers.product_controller import obtener_top_productos, obtener_producto_por_id
 from app.controllers.carrito_controller import agregar_a_carrito, quitar_de_carrito, obtener_carrito, limpiar_carrito
 from app.controllers.compra_controller import procesar_compra, obtener_compras_usuario
+from app.ml.recommendation import get_recommendations, get_personalized_recommendations
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    productos = obtener_top_productos()
+    if session.get('usuario'):
+        productos = get_personalized_recommendations(session['usuario'])
+    else:
+        productos = get_recommendations()
     return render_template('index.html', productos=productos)
 
 @main.route('/agregar-carrito/<int:producto_id>')
