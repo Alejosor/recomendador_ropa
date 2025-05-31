@@ -58,3 +58,20 @@ def subir_producto():
         flash('Producto subido correctamente.')
         return redirect(url_for('admin.subir_producto'))
     return render_template('admin/subir_producto.html')
+
+@admin_bp.route('/admin/editar/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def editar_usuario(id):
+    from app.models.user import User
+    usuario = User.query.get_or_404(id)
+
+    if request.method == 'POST':
+        usuario.nombre = request.form['nombre']
+        usuario.correo = request.form['correo']
+        
+        from app import db
+        db.session.commit()
+        flash('Usuario actualizado correctamente.')
+        return redirect(url_for('admin.lista_usuarios'))
+
+    return render_template('admin/editar_usuario.html', usuario=usuario)
