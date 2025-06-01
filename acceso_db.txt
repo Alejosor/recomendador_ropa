@@ -1,0 +1,4 @@
+host : dpg-d0t7je49c44c7396r900-a.oregon-postgres.render.com
+Base de datos:futbolera
+User:futbolera_user
+password:LVlPwRImzV7FrkrCWjOpjuhpGAInEBz4
