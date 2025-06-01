@@ -31,36 +31,71 @@
             font-size: 28px;
         }
 
+        .purchase-group {
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .purchase-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .purchase-date {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .purchase-id {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .purchase-total {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
         .product-list {
             list-style-type: none;
             padding: 0;
-            margin-bottom: 25px;
+            margin: 0;
         }
 
         .product-item {
             background-color: white;
-            border: 1px solid #e9ecef;
-            border-radius: 6px;
             padding: 15px;
-            margin-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
             transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
         }
 
         .product-item:hover {
             background-color: #f8f9fa;
         }
 
-        .product-item strong {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-right: 8px;
+        .product-info {
+            flex-grow: 1;
         }
 
-        .order-id {
+        .product-name {
+            font-weight: bold;
+            color: #2c3e50;
             display: block;
-            margin-top: 5px;
-            color: #7f8c8d;
-            font-size: 0.9em;
+            margin-bottom: 5px;
         }
 
         .category {
@@ -70,12 +105,23 @@
             padding: 3px 8px;
             border-radius: 3px;
             display: inline-block;
-            margin: 0 8px;
+            margin-right: 8px;
         }
 
-        .price {
+        .product-quantity {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-size: 14px;
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .product-price {
             font-weight: bold;
             color: #2ecc71;
+            text-align: right;
+            min-width: 100px;
         }
 
         .empty-message {
@@ -110,24 +156,73 @@
                 margin: 20px;
                 padding: 15px;
             }
+            
+            .purchase-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .purchase-total {
+                margin-top: 10px;
+            }
+            
+            .product-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .product-price {
+                margin-top: 10px;
+                text-align: left;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🧾 Mis Compras</h1>
+        <h1>🧾 Mi Historial de Compras</h1>
         
         {% if compras %}
-            <ul class="product-list">
-                {% for item in compras %}
-                    <li class="product-item">
-                        <strong>{{ item.nombre_producto }}</strong>
-                        <span class="category">{{ item.categoria }}</span>
-                        <span class="price">S/ {{ item.precio_unitario }}</span>
-                        <span class="order-id">ID Venta: {{ item.id_venta }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% set current_venta = 0 %}
+            {% set ventas = {} %}
+            
+            {# Agrupar productos por venta #}
+            {% for item in compras %}
+                {% if item.id_venta not in ventas %}
+                    {% set _ = ventas.update({item.id_venta: {'fecha': item.fecha, 'total': item.total, 'productos': []}}) %}
+                {% endif %}
+                {% set _ = ventas[item.id_venta]['productos'].append(item) %}
+            {% endfor %}
+            
+            {# Mostrar ventas organizadas #}
+            {% for id_venta, venta in ventas.items() %}
+                <div class="purchase-group">
+                    <div class="purchase-header">
+                        <div>
+                            <span class="purchase-date">{{ venta.fecha.strftime('%d/%m/%Y %H:%M') }}</span>
+                            <span class="purchase-id">ID: {{ id_venta }}</span>
+                        </div>
+                        <div class="purchase-total">
+                            Total: S/ {{ "%.2f"|format(venta.total) }}
+                        </div>
+                    </div>
+                    
+                    <ul class="product-list">
+                        {% for producto in venta.productos %}
+                            <li class="product-item">
+                                <div class="product-info">
+                                    <span class="product-name">{{ producto.nombre_producto }}</span>
+                                    <span class="category">{{ producto.categoria }}</span>
+                                    <span class="product-quantity">{{ producto.cantidad }} unidad(es)</span>
+                                </div>
+                                <div class="product-price">
+                                    S/ {{ "%.2f"|format(producto.precio_unitario * producto.cantidad) }}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
         {% else %}
             <div class="empty-message">
                 <p>No has realizado compras aún.</p>
