@@ -121,10 +121,10 @@
             <ul class="product-list">
                 {% for item in compras %}
                     <li class="product-item">
-                        <strong>{{ item.producto }}</strong>
+                        <strong>{{ item.nombre_producto }}</strong>
                         <span class="category">{{ item.categoria }}</span>
-                        <span class="price">S/ {{ item.precio }}</span>
-                        <span class="order-id">ID Orden: {{ item.id_orden }}</span>
+                        <span class="price">S/ {{ item.precio_unitario }}</span>
+                        <span class="order-id">ID Venta: {{ item.id_venta }}</span>
                     </li>
                 {% endfor %}
             </ul>
