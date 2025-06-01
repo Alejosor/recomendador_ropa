@@ -17,7 +17,8 @@ def index():
 
 @main.route('/agregar-carrito/<int:producto_id>')
 def agregar_carrito(producto_id):
-    exito, mensaje = agregar_a_carrito(producto_id)
+    cantidad = request.args.get('cantidad', 1, type=int)
+    exito, mensaje = agregar_a_carrito(producto_id, cantidad)
     flash(mensaje, 'success' if exito else 'error')
     return redirect(url_for('main.index'))
 
