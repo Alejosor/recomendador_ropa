@@ -54,18 +54,32 @@ class PersonalizedRecommender:
         return self
     def calculate_product_similarity(self):
         try:
+            # Obtener categorías de productos
             categories_dict = get_product_categories()
+            
+            # Crear arrays para almacenar IDs y categorías
+            product_ids = []
             product_features = []
+            
+            # Asegurarnos que cada producto tenga un ID y una categoría
             for product_id in self.products_df['id'].values:
+                product_ids.append(product_id)
                 category = categories_dict.get(product_id, 'unknown')
                 product_features.append([category])
-            encoder = OneHotEncoder(sparse_output=False)
+                
+            # Convertir categorías a vectores numéricos
+            encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
             encoded_features = encoder.fit_transform(product_features)
+            
+            # Guardar IDs de productos para referencia
+            self.product_ids = np.array(product_ids)
+            
+            # Calcular similitud del coseno entre productos
             self.product_similarity = cosine_similarity(encoded_features)
+            
         except Exception as e:
-            print(f"Error calculating product similarity: {e}")
             self.product_similarity = None
-    def recommend_for_user(self, user_id, n_recommendations=15):
+    def recommend_for_user(self, user_id, n_recommendations=10):
         if not self.is_fitted:
             self.fit()
         user_history = get_user_purchase_history(user_id)
@@ -75,20 +89,27 @@ class PersonalizedRecommender:
         if self.product_similarity is None:
             return self.popularity_recommender.recommend(n_recommendations)
         similar_products_scores = {}
-        products_id = self.products_df['id'].values
-        for purchased_in in purchased_products:
+        
+        for purchased_id in purchased_products:
             try:
-                idx = np.where(products_id == purchased_in)[0]
+                # Encontrar índice del producto en nuestra matriz
+                idx = np.where(self.product_ids == purchased_id)[0]
                 if len(idx) == 0:
                     continue
                 idx = idx[0]
-                for i, products_id in enumerate(products_id):
-                    if products_id not in similar_products_scores:
-                        similar_products_scores[products_id[i]] = 0
-                    similar_products_scores[products_id] += self.product_similarity[idx, i]
+                
+                # Recorrer todos los productos
+                for i, product_id in enumerate(self.product_ids):
+                    if product_id not in similar_products_scores:
+                        similar_products_scores[product_id] = 0
+                    
+                    # Sumar puntaje de similitud
+                    similar_products_scores[product_id] += self.product_similarity[idx, i]
+                    
             except Exception as e:
-                print(f"Error calculating recommendations for user {user_id}: {e}")
+                logger.error(f"Error al procesar producto {purchased_id}: {e}")
                 continue
+        
         similar_df = pd.DataFrame({
             'id_product': list(similar_products_scores.keys()),
             'similarity_score': list(similar_products_scores.values())
