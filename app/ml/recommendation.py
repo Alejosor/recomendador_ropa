@@ -19,7 +19,7 @@ def initialize_models():
         popularity_model = PopularityRecommender().fit()
     if personalized_model is None:
         personalized_model = PersonalizedRecommender().fit()
-def get_recommendations(n=30, debug=False):
+def get_recommendations(n=200, debug=False):
     if debug:
         recommendations_df = debug_popularity_recommendations(n)
     else:
@@ -36,7 +36,7 @@ def get_recommendations(n=30, debug=False):
             "popularidad": int(row['cant_ventas'])
         })
     return recommendations
-def get_personalized_recommendations(username, n=30, debug=False):
+def get_personalized_recommendations(username, n=200, debug=False):
     if debug:
         recommendations_df = debug_personalized_recommendations(username, n)
     else:
