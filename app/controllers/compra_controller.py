@@ -14,23 +14,29 @@ def procesar_compra():
         return False, "Usuario no encontrado."
     carrito = session.get('carrito', [])
     if not carrito:
-        return False, "El carrito está vacío."
-    total = sum(float(p['precio']) for p in carrito)
+        return False, "El carrito está vacío."    
+    # Calcular total usando el campo total de cada item
+    total = sum(float(item['total']) for item in carrito)
+    
     venta = Venta(id_user=user.id, total=total)
     db.session.add(venta)
     db.session.flush()  # Para obtener el id de la venta
+    
     for item in carrito:
+        cantidad = item.get('cantidad', 1)  # Usar la cantidad seleccionada
         detalle = VentaDetail(
             id_venta=venta.id,
             id_product=item['id'],
-            cant=1,
+            cant=cantidad,  # Usar cantidad correcta
             unit_price=item['precio']
         )
         db.session.add(detalle)
-        # Actualizar ventas del producto
+        
+        # Actualizar ventas del producto considerando la cantidad
         producto = Product.query.get(item['id'])
         if producto:
-            producto.cant_ventas += 1
+            producto.cant_ventas += cantidad  # Incrementar según cantidad
+    
     db.session.commit()
     return True, "Compra realizada con éxito."
 
